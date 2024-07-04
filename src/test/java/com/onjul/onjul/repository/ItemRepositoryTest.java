@@ -73,4 +73,24 @@ public class ItemRepositoryTest {
             System.out.println(item.toString());
         }
     }
+
+    @Test
+    @DisplayName("상품 가격 높은 순 정렬")
+    public void findByPriceOrderByPriceDescTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findAllByOrderByPriceDesc();
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
+
+    @Test
+    @DisplayName("상품 가격 낮은 순 정렬")
+    public void findByPriceOrderByPriceAscTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findAllByOrderByPriceAsc();
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
 }
