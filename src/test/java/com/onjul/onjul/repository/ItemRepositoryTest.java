@@ -55,6 +55,16 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("상품 전체 조회 테스트")
+    public void findAllItemTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findAll();
+        for (Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
+
+    @Test
     @DisplayName("상품명 조회 테스트")
     public void findByItemNmTest() {
         this.createItemList();
