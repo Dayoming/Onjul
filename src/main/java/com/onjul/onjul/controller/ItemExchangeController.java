@@ -6,11 +6,14 @@ import com.onjul.onjul.entity.Item;
 import com.onjul.onjul.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/exchange")
@@ -43,6 +46,13 @@ public class ItemExchangeController {
 
         Item item = itemDto.toEntity();
         Item saved = itemRepository.save(item);
+        return "redirect:/exchange/";
+    }
+
+    @GetMapping("/")
+    public String exchangeList(Model model) {
+        List<Item> items = itemRepository.findAll();
+        model.addAttribute("itemList", items);
         return "exchange/exchange-list";
     }
 }
