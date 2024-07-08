@@ -59,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item, status: ${itemList}">
+        <tr th:each="item, status : ${itemList}" th:onclick="'window.location.href=\'' + @{/exchange/{id} (id=${item.id})} + '\''" style="cursor: pointer;">
             <th scope="row" th:text="${status.index + 1}"></th>
             <td th:text="${item.itemNm}"></td>
             <td th:text="${item.itemCategory}"></td>
