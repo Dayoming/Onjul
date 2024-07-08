@@ -55,4 +55,11 @@ public class ItemExchangeController {
         model.addAttribute("itemList", items);
         return "exchange/exchange-list";
     }
+
+    @GetMapping("/{id}")
+    public String exchangeListDetail(@PathVariable Long id, Model model) {
+        Item item = itemRepository.findById(id).orElse(null);
+        model.addAttribute("item", item);
+        return "exchange/exchange-detail";
+    }
 }
