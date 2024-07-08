@@ -49,6 +49,7 @@ public class ItemExchangeControllerTest {
         mock.perform(MockMvcRequestBuilders.post("/exchange/createItem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(itemDto)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/exchange/"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
     }
 }
