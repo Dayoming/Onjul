@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.onjul.onjul.constant.ItemCategory;
 import com.onjul.onjul.constant.ItemSellStatus;
 import com.onjul.onjul.dto.ItemDto;
+import org.assertj.core.api.Assertions;
 import com.onjul.onjul.entity.Item;
 import com.onjul.onjul.repository.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,5 +74,22 @@ public class ItemExchangeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("item"))
                 .andExpect(MockMvcResultMatchers.model().attribute("item", item));
+    }
+
+    @Test
+    @DisplayName("교환 게시판 특정 상품 삭제 테스트")
+    public void deleteItemTest() throws Exception {
+        ItemDto itemDto = new ItemDto(null, "테스트 상품", ItemCategory.ETC, "admin", "admin",
+                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, LocalDateTime.now(), LocalDateTime.now());
+        Item item = itemDto.toEntity();
+        itemRepository.save(item);
+
+        // 삭제 요청 전송
+        mock.perform(MockMvcRequestBuilders.get("/exchange/delete/0"))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.view().name("redirect:/exchange/"));
+
+        // 해당 Item이 지워졌는지 확인
+        Assertions.assertThat(itemRepository.findByItemNm("테스트 상품")).isEmpty();
     }
 }
