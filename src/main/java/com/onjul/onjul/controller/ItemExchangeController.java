@@ -68,5 +68,27 @@ public class ItemExchangeController {
         return "redirect:/exchange/";
     }
 
+    @GetMapping("/edit/{id}")
+    public String exchangeListEdit(@PathVariable Long id, Model model) {
+        Item item = itemRepository.findById(id).orElse(null);
+        model.addAttribute("item", item);
+        return "exchange/exchange-edit";
+    }
+
+    @PostMapping("/update")
+    public String exchangeListUpdate(ItemDto itemDto) {
+        itemDto.setUpdateTime(LocalDateTime.now());
+        // 임시 sellerNm, sellerId
+        itemDto.setSellerNm("Admin");
+        itemDto.setSellerId("Admin");
+
+        Item item = itemDto.toEntity();
+        Item target = itemRepository.findById(item.getId()).orElse(null);
+        if (target != null) {
+            itemRepository.save(item);
+        }
+        return "redirect:/exchange/" + item.getId();
+    }
+
 
 }

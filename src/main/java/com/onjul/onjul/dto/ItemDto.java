@@ -28,7 +28,7 @@ public class ItemDto {
     private LocalDateTime updateTime; // 수정 시간
 
     public Item toEntity() {
-        return new Item(null, itemNm, itemCategory, sellerId, sellerNm, price,
+        return new Item(id, itemNm, itemCategory, sellerId, sellerNm, price,
                 stockNumber, itemDetail, itemSellStatus, regTime, updateTime);
     }
 }
