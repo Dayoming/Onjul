@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <head th:fragment="configFragment">
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <title>Onjul</title>
+            <!--  공통으로 쓰이는 CSS 파일  -->
+            <th:block th:replace="common/styles"></th:block>
+
+            <!-- 컨텐츠 페이지의 CSS 영역 -->
+            <th:block layout:fragment="css"></th:block>
+
+            <!-- 공통 Javascript -->
+            <th:block th:replace="common/scripts"></th:block>
+
+            <!-- 컨텐츠 페이지의 Script 영역 -->
+            <th:block layout:fragment="script"></th:block>
+        </head>
+    </head>
+</html>
