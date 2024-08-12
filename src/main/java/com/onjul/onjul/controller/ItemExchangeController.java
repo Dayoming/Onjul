@@ -4,7 +4,11 @@ import com.onjul.onjul.constant.ItemSellStatus;
 import com.onjul.onjul.dto.ItemDto;
 import com.onjul.onjul.entity.Item;
 import com.onjul.onjul.repository.ItemRepository;
+import com.onjul.onjul.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,9 @@ public class ItemExchangeController {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    ItemService itemService;
 
     @GetMapping("/new")
     public String newExchangeItemForm() {
@@ -47,9 +54,16 @@ public class ItemExchangeController {
     }
 
     @GetMapping("/")
-    public String exchangeList(Model model) {
-        List<Item> items = itemRepository.findAll();
-        model.addAttribute("itemList", items);
+    public String exchangeList(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<ItemDto> itemPages = itemService.paging(pageable);
+
+        int blockLimit = 10; // page 개수 설정
+        int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = Math.min((startPage + blockLimit - 1), itemPages.getTotalPages());
+
+        model.addAttribute("itemList", itemPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         return "exchange/exchange-list";
     }
 

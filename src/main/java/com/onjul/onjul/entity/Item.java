@@ -48,4 +48,18 @@ public class Item {
     private LocalDateTime regTime; // 등록 시간
 
     private LocalDateTime updateTime; // 수정 시간
+
+    @Builder
+    public Item(String itemNm, ItemCategory itemCategory, String sellerId, String sellerNm, int price, int stockNumber, String itemDetail) {
+        this.itemNm = itemNm;
+        this.itemCategory = itemCategory;
+        this.sellerId = sellerId;
+        this.sellerNm = sellerNm;
+        this.price = price;
+        this.stockNumber = stockNumber;
+        this.itemDetail = itemDetail;
+        this.itemSellStatus = ItemSellStatus.SELL;
+        this.regTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
+    }
 }

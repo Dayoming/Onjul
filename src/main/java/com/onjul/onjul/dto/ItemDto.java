@@ -27,6 +27,16 @@ public class ItemDto {
     private LocalDateTime regTime; // 등록 시간
     private LocalDateTime updateTime; // 수정 시간
 
+    public ItemDto(Item entity) {
+        this.id = entity.getId();
+        this.itemNm = entity.getItemNm();
+        this.itemCategory = entity.getItemCategory();
+        this.sellerNm = entity.getSellerNm();
+        this.price = entity.getPrice();
+        this.stockNumber = entity.getStockNumber();
+        this.itemSellStatus = entity.getItemSellStatus();
+    }
+
     public Item toEntity() {
         return new Item(id, itemNm, itemCategory, sellerId, sellerNm, price,
                 stockNumber, itemDetail, itemSellStatus, regTime, updateTime);
