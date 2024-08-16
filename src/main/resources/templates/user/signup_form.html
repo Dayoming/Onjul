@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default-layout">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="../css/signup.css"/>
+</th:block>
+<th:block layout:fragment="content">
+    <body class="align-items-center bg-body-tertiary">
+    <main class="form-signin w-100 m-auto" style="text-align: center;">
+        <form th:action="@{/user/signup}" th:object="${userCreateDto}" method="post">
+            <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
+            <div th:replace="~{fragments/form_errors :: formErrorsFragment}"></div>
+            <div class="form-floating mb-3">
+                <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="ID">
+                <label for="username">ID</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" th:field="*{password1}" class="form-control" id="password1" placeholder="Password">
+                <label for="password1">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" th:field="*{password2}" class="form-control" id="password2" placeholder="Password">
+                <label for="password2">Re-enter password</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" th:field="*{nickname}" class="form-control" id="nickname" placeholder="Nickname">
+                <label for="nickname">Nickname</label>
+            </div>
+
+<!--            <div class="form-check text-start my-3">-->
+<!--                <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">-->
+<!--                <label class="form-check-label" for="flexCheckDefault">-->
+<!--                    Remember me-->
+<!--                </label>-->
+<!--            </div>-->
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+        </form>
+    </main>
+    </body>
+</th:block>
+</html>
