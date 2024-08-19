@@ -29,7 +29,10 @@
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="/user/signup">Sign up</a></li>
-                    <li><a class="dropdown-item" href="/user/signin">Sign in</a></li>
+                    <li>
+                        <a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/user/login}">Login</a>
+                        <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
