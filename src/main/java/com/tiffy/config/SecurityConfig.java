@@ -18,14 +18,15 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .formLogin((formLogin) -> formLogin
-                        .loginPage("/user/login")
-                        .defaultSuccessUrl("/"))
-                .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/scss/**", "/favicon/**", "/icon/**").permitAll()
+                        .requestMatchers("/", "/user/login", "/user/signup").permitAll())
+                        .formLogin((formLogin) -> formLogin
+                            .loginPage("/user/login")
+                            .defaultSuccessUrl("/"))
+                        .logout((logout) -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                                .logoutSuccessUrl("/")
+                                .invalidateHttpSession(true));
         return http.build();
     }
 
