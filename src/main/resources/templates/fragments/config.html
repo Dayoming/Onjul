@@ -33,13 +33,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap"
           rel="stylesheet">
     <!--  공통으로 쓰이는 CSS 파일  -->
-    <th:block th:replace="common/styles"></th:block>
+    <th:block th:replace="~{common/styles}"></th:block>
 
     <!-- 컨텐츠 페이지의 CSS 영역 -->
     <th:block layout:fragment="css"></th:block>
 
     <!-- 공통 Javascript -->
-    <th:block th:replace="common/scripts"></th:block>
+    <th:block th:replace="~{common/scripts}"></th:block>
 
     <!-- 컨텐츠 페이지의 Script 영역 -->
     <th:block layout:fragment="script"></th:block>
