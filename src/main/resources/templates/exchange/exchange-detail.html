@@ -2,23 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default-layout">
 <th:block layout:fragment="content">
-<div class="container">
-        <h1>상품 상세보기</h1>
-        <div>
-            <p><strong>상품명:</strong> <span th:text="${item.itemNm}">상품명</span></p>
-            <p><strong>카테고리:</strong> <span th:text="${item.itemCategory}">카테고리</span></p>
-            <p><strong>판매자 아이디:</strong> <span th:text="${item.sellerId}">판매자 아이디</span></p>
-            <p><strong>판매자 이름:</strong> <span th:text="${item.sellerNm}">판매자 이름</span></p>
-            <p><strong>가격:</strong> <span th:text="${item.price}">가격</span>원</p>
-            <p><strong>수량:</strong> <span th:text="${item.stockNumber}">수량</span></p>
-            <p><strong>상품 설명:</strong> <span th:text="${item.itemDetail}">상품 설명</span></p>
-            <p><strong>판매 상태:</strong> <span th:text="${item.itemSellStatus}">판매 상태</span></p>
-            <p><strong>등록 시간:</strong> <span th:text="${item.regTime}">등록 시간</span></p>
-            <p><strong>수정 시간:</strong> <span th:text="${item.updateTime}">수정 시간</span></p>
-            <a href="/exchange/" class="btn btn-light">Back</a>
-            <a th:href="@{/exchange/edit/{id}(id=${item.id})}" class="btn btn-primary">Edit</a>
-            <a th:href="@{/exchange/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>
+    <div class="container-xxl py-6">
+        <div class="container py-6">
+            <h1>상품 상세보기</h1>
+            <div>
+                <p><strong>상품명:</strong> <span th:text="${item.itemNm}">상품명</span></p>
+                <p><strong>카테고리:</strong> <span th:text="${item.itemCategory}">카테고리</span></p>
+                <p><strong>판매자 아이디:</strong> <span th:text="${item.sellerId}">판매자 아이디</span></p>
+                <p><strong>판매자 이름:</strong> <span th:text="${item.sellerNm}">판매자 이름</span></p>
+                <p><strong>가격:</strong> <span th:text="${item.price}">가격</span>원</p>
+                <p><strong>수량:</strong> <span th:text="${item.stockNumber}">수량</span></p>
+                <p><strong>상품 설명:</strong> <span th:text="${item.itemDetail}">상품 설명</span></p>
+                <p><strong>판매 상태:</strong> <span th:text="${item.itemSellStatus}">판매 상태</span></p>
+                <p><strong>등록 시간:</strong> <span th:text="${item.regTime}">등록 시간</span></p>
+                <p><strong>수정 시간:</strong> <span th:text="${item.updateTime}">수정 시간</span></p>
+                <a href="/exchange/" class="btn btn-light">Back</a>
+                <a th:href="@{/exchange/edit/{id}(id=${item.id})}" class="btn btn-primary">Edit</a>
+                <a th:href="@{/exchange/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>
+            </div>
         </div>
-</div>
+    </div>
 </th:block>
 </html>
