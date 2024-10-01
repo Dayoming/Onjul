@@ -59,7 +59,17 @@ public class ItemExchangeController {
         Page<ItemDto> itemPages = itemService.paging(pageable);
 
         int blockLimit = 10; // page 개수 설정
-        int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int currentPage = pageable.getPageNumber();
+
+        // 페이지가 비어있는 경우 처리
+        if (itemPages.getTotalPages() == 0) {
+            model.addAttribute("itemList", itemPages);
+            model.addAttribute("startPage", 1);
+            model.addAttribute("endPage", 1);  // 1 페이지만 표시
+            return "exchange/exchange-list";
+        }
+
+        int startPage = (((int) Math.ceil(((double) currentPage / blockLimit))) - 1) * blockLimit + 1;
         int endPage = Math.min((startPage + blockLimit - 1), itemPages.getTotalPages());
 
         model.addAttribute("itemList", itemPages);
