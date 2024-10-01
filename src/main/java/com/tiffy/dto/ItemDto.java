@@ -3,16 +3,14 @@ package com.tiffy.dto;
 import com.tiffy.constant.ItemSellStatus;
 import com.tiffy.constant.ItemCategory;
 import com.tiffy.entity.Item;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ItemDto {
     private Long id; // 상품 코드

@@ -5,6 +5,7 @@ import com.tiffy.dto.ItemDto;
 import com.tiffy.service.ItemService;
 import com.tiffy.entity.Item;
 import com.tiffy.repository.ItemRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,12 +27,13 @@ public class ItemExchangeController {
     ItemService itemService;
 
     @GetMapping("/new")
-    public String newExchangeItemForm() {
+    public String newExchangeItemForm(Model model) {
+        model.addAttribute("itemDto", new ItemDto());
         return "exchange/exchange-new";
     }
 
     @PostMapping("/createItem")
-    public String createExchangeItem(ItemDto itemDto) {
+    public String createExchangeItem(@Valid ItemDto itemDto) {
         itemDto.setItemSellStatus(ItemSellStatus.SELL);
         itemDto.setRegTime(LocalDateTime.now());
         itemDto.setUpdateTime(LocalDateTime.now());
