@@ -18,8 +18,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/scss/**", "/favicon/**", "/icon/**").permitAll()
-                        .requestMatchers("/", "/user/login", "/user/signup").permitAll())
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/scss/**", "/favicon/**"
+                                ,"/error", "/icon/**", "/assets/**").permitAll()
+                        .requestMatchers("/", "/user/login", "/user/signup").permitAll()
+                        .requestMatchers("/exchange/**", "/recipes/**").authenticated())
                         .formLogin((formLogin) -> formLogin
                             .loginPage("/user/login")
                             .defaultSuccessUrl("/"))
