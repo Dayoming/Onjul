@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @SpringBootTest
@@ -31,8 +32,11 @@ public class ItemRepositoryTest {
         item.setItemDetail("테스트 상품 상세 설명");
         item.setItemSellStatus(ItemSellStatus.SELL);
         item.setStockNumber(100);
-        item.setRegTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        item.setRegTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        item.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
         Item savedItem = itemRepository.save(item);
         System.out.println(savedItem.toString());
     }
@@ -48,8 +52,11 @@ public class ItemRepositoryTest {
             item.setSellerNm("다영" + i);
             item.setItemSellStatus(ItemSellStatus.SELL);
             item.setStockNumber(100);
-            item.setRegTime(LocalDateTime.now());
-            item.setUpdateTime(LocalDateTime.now());
+
+            LocalDateTime localDateTime = LocalDateTime.now();
+            item.setRegTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            item.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
             Item savedItem = itemRepository.save(item);
         }
     }
