@@ -2,6 +2,8 @@ package com.tiffy.controller;
 
 import com.tiffy.constant.ItemSellStatus;
 import com.tiffy.dto.ItemDto;
+import com.tiffy.entity.User;
+import com.tiffy.repository.UserRepository;
 import com.tiffy.service.ItemService;
 import com.tiffy.entity.Item;
 import com.tiffy.repository.ItemRepository;
@@ -13,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,39 @@ public class ItemExchangeController {
     ItemRepository itemRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     ItemService itemService;
+
+    // 로그인한 사용자의 아이디를 가져오는 메서드
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "Anonymous";  // 인증되지 않은 경우 기본값 반환
+        }
+
+        Object principal = authentication.getPrincipal();
+        String userId = null;
+
+        if (principal instanceof UserDetails) {
+            userId = ((UserDetails) principal).getUsername();
+        } else {
+            userId = principal.toString();
+        }
+
+        return userId;
+    }
+
+    // 로그인한 사용자의 닉네임을 가져오는 메서드
+    public String getCurrentUserNickname() {
+        // 사용자 정보 조회 (DB에서 username을 통해 User 엔티티를 가져옴)
+        User user = userRepository.findByUsername(getCurrentUserId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return user.getNickname();  // 닉네임 반환
+    }
 
     @GetMapping("/new")
     public String newExchangeItemForm(Model model) {
@@ -41,12 +76,11 @@ public class ItemExchangeController {
         itemDto.setItemSellStatus(ItemSellStatus.SELL);
 
         LocalDateTime localDateTime = LocalDateTime.now();
-
         itemDto.setRegTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         itemDto.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-        itemDto.setSellerNm("Admin");
-        itemDto.setSellerId("Admin");
+        itemDto.setSellerNm(getCurrentUserNickname());
+        itemDto.setSellerId(getCurrentUserId());
 
         // price와 stockNumber가 null이면 기본값 설정
         if (itemDto.getPrice() == null) {
@@ -112,7 +146,7 @@ public class ItemExchangeController {
         LocalDateTime localDateTime = LocalDateTime.now();
         itemDto.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         // 임시 sellerNm, sellerId
-        itemDto.setSellerNm("Admin");
+        itemDto.setSellerNm(getCurrentUserNickname());
         itemDto.setSellerId("Admin");
 
         Item item = itemDto.toEntity();
