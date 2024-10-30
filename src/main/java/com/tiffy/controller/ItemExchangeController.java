@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/exchange")
@@ -35,8 +36,11 @@ public class ItemExchangeController {
     @PostMapping("/createItem")
     public String createExchangeItem(@Valid ItemDto itemDto) {
         itemDto.setItemSellStatus(ItemSellStatus.SELL);
-        itemDto.setRegTime(LocalDateTime.now());
-        itemDto.setUpdateTime(LocalDateTime.now());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        itemDto.setRegTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        itemDto.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         // 임시 sellerNm, sellerId
         itemDto.setSellerNm("Admin");
         itemDto.setSellerId("Admin");
@@ -102,7 +106,8 @@ public class ItemExchangeController {
 
     @PostMapping("/update")
     public String exchangeListUpdate(ItemDto itemDto) {
-        itemDto.setUpdateTime(LocalDateTime.now());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        itemDto.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         // 임시 sellerNm, sellerId
         itemDto.setSellerNm("Admin");
         itemDto.setSellerId("Admin");

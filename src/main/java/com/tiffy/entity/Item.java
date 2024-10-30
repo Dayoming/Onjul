@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="item")
@@ -45,9 +46,9 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; // 상품 판매 상태
 
-    private LocalDateTime regTime; // 등록 시간
+    private String regTime; // 등록 시간
 
-    private LocalDateTime updateTime; // 수정 시간
+    private String updateTime; // 수정 시간
 
     @Builder
     public Item(String itemNm, ItemCategory itemCategory, String sellerId, String sellerNm, int price, int stockNumber, String itemDetail) {
@@ -59,7 +60,10 @@ public class Item {
         this.stockNumber = stockNumber;
         this.itemDetail = itemDetail;
         this.itemSellStatus = ItemSellStatus.SELL;
-        this.regTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        this.regTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.updateTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
