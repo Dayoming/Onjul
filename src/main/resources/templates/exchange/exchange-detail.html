@@ -17,8 +17,8 @@
                 <p><strong>등록 시간:</strong> <span th:text="${item.regTime}">등록 시간</span></p>
                 <p><strong>수정 시간:</strong> <span th:text="${item.updateTime}">수정 시간</span></p>
                 <a href="/exchange/" class="btn btn-light">Back</a>
-                <a th:href="@{/exchange/edit/{id}(id=${item.id})}" class="btn btn-primary">Edit</a>
-                <a th:href="@{/exchange/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>
+                <a th:if="${isOwner}" th:href="@{/exchange/edit/{id}(id=${item.id})}" class="btn btn-primary">Edit</a>
+                <a th:if="${isOwner}" th:href="@{/exchange/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a>
             </div>
         </div>
     </div>

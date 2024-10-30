@@ -1,10 +1,18 @@
 package com.tiffy.controller;
 
+import com.tiffy.dto.RecipeDto;
 import com.tiffy.service.RecipeService;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Slf4j
 @RestController
 public class RecipeRestController {
 
@@ -14,8 +22,12 @@ public class RecipeRestController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/recipes/search")
-    public String getRecipesByIngredients(@RequestParam String ingredients) {
-        return recipeService.getRecipes(ingredients);
+    @PostMapping("/recipes/search")
+    public Map<String, Object> getRecipesByIngredients(@RequestParam String ingredients) {
+        List<RecipeDto> recipes = recipeService.getRecipes(ingredients);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("recipes", recipes);
+        return response;
     }
 }

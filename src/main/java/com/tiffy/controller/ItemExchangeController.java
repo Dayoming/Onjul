@@ -116,13 +116,21 @@ public class ItemExchangeController {
         model.addAttribute("itemList", itemPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+
         return "exchange/exchange-list";
     }
 
     @GetMapping("/{id}")
     public String exchangeListDetail(@PathVariable Long id, Model model) {
         Item item = itemRepository.findById(id).orElse(null);
+
+        // 현재 로그인한 사용자와 작성자가 같은지 확인
+        boolean isOwner = item != null && getCurrentUserId() != null &&
+                getCurrentUserId().equals(item.getSellerId());
+
+        model.addAttribute("isOwner", isOwner); // 소유자 여부를 모델에 추가
         model.addAttribute("item", item);
+
         return "exchange/exchange-detail";
     }
 

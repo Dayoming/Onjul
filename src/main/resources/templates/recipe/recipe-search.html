@@ -1,0 +1,96 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default-layout">
+<th:block layout:fragment="content">
+    <div class="container-xxl py-6">
+        <div class="container py-6">
+            <h1>레시피 검색</h1>
+
+            <form id="recipe-search-form">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="ingredients" placeholder="재료를 입력하세요" required>
+                    <button class="btn btn-outline-secondary" type="submit">검색</button>
+                </div>
+            </form>
+
+            <!-- 레시피 결과를 표시할 영역 -->
+            <div id="recipe-results" class="mt-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // 폼 제출 시 AJAX 요청 보내기
+        document.getElementById('recipe-search-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+
+            const ingredients = document.getElementById('ingredients').value;
+
+            fetch('/recipes/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ ingredients: ingredients })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // 디버깅용 콘솔 출력
+                if (data.recipes && Array.isArray(data.recipes)) {
+                    displayRecipes(data.recipes); // 레시피 표시 함수 호출
+                } else {
+                    document.getElementById('recipe-results').innerHTML = '<p>검색 결과가 없습니다.</p>';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // 레시피 결과를 HTML로 표시하는 함수
+        function displayRecipes(recipes) {
+            const resultsDiv = document.getElementById('recipe-results');
+            resultsDiv.innerHTML = ''; // 기존 결과 초기화
+
+            recipes.forEach(recipe => {
+                const recipeCard = document.createElement('div');
+                recipeCard.classList.add('card', 'mb-3');
+
+                recipeCard.innerHTML = `
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="${recipe.attFileNoMain}" class="img-fluid rounded-start" alt="${recipe.rcpNm}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${recipe.rcpNm}</h5>
+                                <p class="card-text"><strong>조리방법:</strong> ${recipe.rcpWay2}</p>
+                                <p class="card-text"><strong>요리종류:</strong> ${recipe.rcpPat2}</p>
+                                <p class="card-text"><strong>재료정보:</strong> ${recipe.rcpPartsDtls}</p>
+                                <h6>만드는 법:</h6>
+                                <ul>${generateManualSteps(recipe)}</ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                resultsDiv.appendChild(recipeCard);
+            });
+        }
+
+        // 만드는 법 단계를 생성하는 함수
+        function generateManualSteps(recipe) {
+            let steps = '';
+            for (let i = 1; i <= 20; i++) {
+                const manual = recipe[`manual${String(i).padStart(2, '0')}`];
+                const manualImg = recipe[`manualImg${String(i).padStart(2, '0')}`];
+                if (manual) {
+                    steps += `<li>${manual}`;
+                    if (manualImg) {
+                        steps += `<br><img src="${manualImg}" class="img-fluid mt-2" alt="Step ${i}">`;
+                    }
+                    steps += '</li>';
+                }
+            }
+            return steps;
+        }
+    </script>
+</th:block>
+</html>
