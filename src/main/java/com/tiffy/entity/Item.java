@@ -51,7 +51,8 @@ public class Item {
     private String updateTime; // 수정 시간
 
     @Builder
-    public Item(String itemNm, ItemCategory itemCategory, String sellerId, String sellerNm, int price, int stockNumber, String itemDetail) {
+    public Item(Long id, String itemNm, ItemCategory itemCategory, String sellerId, String sellerNm, int price, int stockNumber, String itemDetail) {
+        this.id = id;
         this.itemNm = itemNm;
         this.itemCategory = itemCategory;
         this.sellerId = sellerId;

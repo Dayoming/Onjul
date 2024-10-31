@@ -153,9 +153,8 @@ public class ItemExchangeController {
     public String exchangeListUpdate(ItemDto itemDto) {
         LocalDateTime localDateTime = LocalDateTime.now();
         itemDto.setUpdateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        // 임시 sellerNm, sellerId
         itemDto.setSellerNm(getCurrentUserNickname());
-        itemDto.setSellerId("Admin");
+        itemDto.setSellerId(getCurrentUserId());
 
         Item item = itemDto.toEntity();
         Item target = itemRepository.findById(item.getId()).orElse(null);
