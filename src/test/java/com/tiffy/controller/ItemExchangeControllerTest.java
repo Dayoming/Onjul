@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @WebMvcTest(ItemExchangeController.class)
@@ -33,6 +34,9 @@ public class ItemExchangeControllerTest {
     ItemExchangeController itemExchangeController;
 
     private MockMvc mock;
+    private LocalDateTime localDateTime = LocalDateTime.now();
+    private String regTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    private String updateTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     ObjectMapper objectMapper = new ObjectMapper();
 
     @MockBean
@@ -48,7 +52,7 @@ public class ItemExchangeControllerTest {
     @DisplayName("교환 게시판 상품 입력 테스트")
     public void createItemTest() throws Exception {
         ItemDto itemDto = new ItemDto(null, "테스트 상품", ItemCategory.ETC, "admin", "admin",
-                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, LocalDateTime.now(), LocalDateTime.now());
+                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, regTime, updateTime);
 
         mock.perform(MockMvcRequestBuilders.post("/exchange/createItem")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +65,7 @@ public class ItemExchangeControllerTest {
     @DisplayName("교환 게시판 특정 상품 조회 테스트")
     public void ItemTest() throws Exception {
         ItemDto itemDto = new ItemDto(null, "테스트 상품", ItemCategory.ETC, "admin", "admin",
-                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, LocalDateTime.now(), LocalDateTime.now());
+                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, regTime, updateTime);
         Item item = itemDto.toEntity();
         itemRepository.save(item);
 
@@ -80,7 +84,7 @@ public class ItemExchangeControllerTest {
     @DisplayName("교환 게시판 특정 상품 삭제 테스트")
     public void deleteItemTest() throws Exception {
         ItemDto itemDto = new ItemDto(null, "테스트 상품", ItemCategory.ETC, "admin", "admin",
-                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, LocalDateTime.now(), LocalDateTime.now());
+                10000, 2, "테스트 상품 상세 설명", ItemSellStatus.SELL, regTime, updateTime);
         Item item = itemDto.toEntity();
         itemRepository.save(item);
 
